@@ -11,17 +11,17 @@ targets:
   Zugzaehler:
     type: application
     platform: iOS
-    sources: [App, Shared]
+    sources: [ZugzaehlerApp.swift, Shared.swift]
     dependencies:
       - target: ZugzaehlerWidget
     info:
-      path: App/Info.plist
+      path: Info-App.plist
       properties:
         CFBundleDisplayName: Zugzähler
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
     entitlements:
-      path: App/App.entitlements
+      path: App.entitlements
       properties:
         com.apple.security.application-groups: [group.com.zugzaehler.app]
     settings:
@@ -30,15 +30,15 @@ targets:
   ZugzaehlerWidget:
     type: app-extension
     platform: iOS
-    sources: [Widget, Shared]
+    sources: [ZugzaehlerWidget.swift, Shared.swift]
     info:
-      path: Widget/Info.plist
+      path: Info-Widget.plist
       properties:
         CFBundleDisplayName: Zugzähler
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     entitlements:
-      path: Widget/Widget.entitlements
+      path: Widget.entitlements
       properties:
         com.apple.security.application-groups: [group.com.zugzaehler.app]
     settings:
