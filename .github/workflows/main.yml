@@ -1,0 +1,28 @@
+name: Build IPA
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Projekt erzeugen
+        run: |
+          brew install xcodegen
+          xcodegen generate
+      - name: App bauen (ohne Signatur)
+        run: |
+          xcodebuild -project Zugzaehler.xcodeproj -scheme Zugzaehler \
+            -configuration Release -sdk iphoneos -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+      - name: IPA verpacken
+        run: |
+          mkdir Payload
+          cp -R build/Build/Products/Release-iphoneos/Zugzaehler.app Payload/
+          zip -r Zugzaehler.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Zugzaehler-ipa
+          path: Zugzaehler.ipa
